@@ -33,8 +33,8 @@ def readTxt(root:str):
 
 if __name__ == '__main__':
     # path_tab, target = readTxt("../Dataset/training.txt")
-    path_tab, target_tab = readTxt("C:\PhosPerphyllize\pycharm_save\p1_test2.txt")
-    print(path_tab[0])
-    print(target_tab[0])
+    path_tab, target_tab = readTxt("..\..\p1_test2.txt")
+    print(path_tab[-1])
+    print(target_tab[-1])
 
     print("Code end")
