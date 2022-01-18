@@ -1,7 +1,7 @@
+import cv2
 import torch
 import torchvision
-from PIL import Image
-from torch.utils.data import Dataset, DataLoader  ## utils为常用工具包
+from torch.utils.data import Dataset, DataLoader
 import os
 import sys
 from readtxt import readTxt
@@ -20,7 +20,7 @@ class MyData(Dataset):
     def __getitem__(self, idx):
         img_name = self.img_list[idx]
         img_path = os.path.join(self.root, img_name)
-        img = Image.open(img_path)
+        img = cv2.imread(img_path,cv2.IMREAD_GRAYSCALE)
         img_target = self.target_tab[idx]
         return self.trans(img), torch.Tensor(img_target)  # 在这里确定返回，只要调用 类名[i]就返回
 
@@ -30,8 +30,8 @@ class MyData(Dataset):
 
 if __name__ == "__main__":
     dataset_trans = torchvision.transforms.Compose([
-        torchvision.transforms.Resize((64, 64)),
         torchvision.transforms.ToTensor(),
+        torchvision.transforms.Resize((64, 64)),
     ])
 
     trainset = MyData(root="../Dataset", train=True, transforms=dataset_trans)

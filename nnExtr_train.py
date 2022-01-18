@@ -8,7 +8,7 @@ import time
 from read_data import *
 from nn_model import *
 
-writer = SummaryWriter("../logs/nnExtr")
+writer = SummaryWriter("logs/nnExtr")
 model_save_path = "nnextr_save"
 if not os.path.exists(model_save_path):
     os.makedirs(model_save_path)
@@ -16,14 +16,14 @@ if not os.path.exists(model_save_path):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 dataset_trans = torchvision.transforms.Compose([
-    torchvision.transforms.Resize((64, 64)),
     torchvision.transforms.ToTensor(),
+    torchvision.transforms.Resize((64, 64)),
 ])
 
 root = "../Dataset"
-trainset = MyData(root=root, train=True)
+trainset = MyData(root=root, train=True, transforms=dataset_trans)
 print("Train set read: successful.")
-testset = MyData(root=root, train=False)
+testset = MyData(root=root, train=False, transforms=dataset_trans)
 print("Test set read: successful.")
 
 train_dataloader = DataLoader(trainset, batch_size=64, shuffle=True)
@@ -41,7 +41,7 @@ nn_optim = torch.optim.Adam(nnextr.parameters(), lr=learn_rate)
 
 train_num = 0
 test_num = 0
-epoch = 4000
+epoch = 3000
 
 start_time = time.time()   # 记录时间
 for i in range(epoch):
@@ -63,9 +63,9 @@ for i in range(epoch):
         nn_optim.step()
 
         train_num += 1
-        if train_num % 800 == 0:
+        if train_num % 50 == 0:
             print("In train num {}, loss: {}".format(train_num, loss))
-            # writer.add_scalar(tag="train_num vs loss", scalar_value=loss, global_step=train_num)
+            writer.add_scalar(tag="train_num vs loss", scalar_value=loss, global_step=train_num)
 
     print("In epoch {}, TrainSet train loss: {}".format(i+1, loss_train))  # tensor数据类型也可以正常打印，如果想变为普通类型，可使用xxx.item()
     writer.add_scalar(tag="epoch(TrainSet) vs loss", scalar_value=loss_train, global_step=i+1)
@@ -86,7 +86,7 @@ for i in range(epoch):
         print("In epoch {}, TestSet test loss: {}".format(i+1, loss_test))
         writer.add_scalar(tag="epoch(TestSet) vs loss", scalar_value=loss_train, global_step=i + 1)
 
-    if i != 0 and (i + 1) % 400 == 0:
+    if i != 0 and (i + 1) % 100 == 0:
         path = os.path.join(model_save_path, ("nnextr_model{}.pth".format(i + 1)))
         torch.save(nnextr, path)  # 自动保存
 
