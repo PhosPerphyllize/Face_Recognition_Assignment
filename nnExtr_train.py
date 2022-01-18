@@ -8,8 +8,8 @@ import time
 from read_data import *
 from nn_model import *
 
-writer = SummaryWriter("logs/nnExtr")
-model_save_path = "nnextr_save"
+writer = SummaryWriter("logs/nnExtr2")
+model_save_path = "nnextr_save2"
 if not os.path.exists(model_save_path):
     os.makedirs(model_save_path)
 
@@ -21,7 +21,9 @@ dataset_trans = torchvision.transforms.Compose([
 ])
 
 root = "../Dataset"
-trainset = MyData(root=root, train=True, transforms=dataset_trans)
+trainset1 = MyData(root=root, train=True, transforms=dataset_trans)
+trainset2 = MyData(root=root, train=True, transforms=dataset_trans, flip=True)
+trainset = trainset1 + trainset2
 print("Train set read: successful.")
 testset = MyData(root=root, train=False, transforms=dataset_trans)
 print("Test set read: successful.")
@@ -84,7 +86,7 @@ for i in range(epoch):
             test_num += 1
 
         print("In epoch {}, TestSet test loss: {}".format(i+1, loss_test))
-        writer.add_scalar(tag="epoch(TestSet) vs loss", scalar_value=loss_train, global_step=i + 1)
+        writer.add_scalar(tag="epoch(TestSet) vs loss", scalar_value=loss_test, global_step=i + 1)
 
     if i != 0 and (i + 1) % 100 == 0:
         path = os.path.join(model_save_path, ("nnextr_model{}.pth".format(i + 1)))
