@@ -8,8 +8,8 @@ import time
 from read_data import *
 from nn_model import *
 
-writer = SummaryWriter("logs/nnExtr")
-model_save_path = "nnextr_save"
+writer = SummaryWriter("logs/nnExtr2")
+model_save_path = "nnextr_save2"
 if not os.path.exists(model_save_path):
     os.makedirs(model_save_path)
 
@@ -17,11 +17,13 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 dataset_trans = torchvision.transforms.Compose([
     torchvision.transforms.ToTensor(),
-    torchvision.transforms.Resize((64, 64)),
+    torchvision.transforms.Resize((48, 48)),
 ])
 
 root = "../Dataset"
-trainset = MyData(root=root, train=True, transforms=dataset_trans)
+trainset1 = MyData(root=root, train=True, transforms=dataset_trans)
+trainset2 = MyData(root=root, train=True, transforms=dataset_trans, flip=True)
+trainset = trainset1 + trainset2
 print("Train set read: successful.")
 testset = MyData(root=root, train=False, transforms=dataset_trans)
 print("Test set read: successful.")
@@ -41,7 +43,7 @@ nn_optim = torch.optim.Adam(nnextr.parameters(), lr=learn_rate)
 
 train_num = 0
 test_num = 0
-epoch = 3000
+epoch = 4000
 
 start_time = time.time()   # 记录时间
 for i in range(epoch):
@@ -84,7 +86,7 @@ for i in range(epoch):
             test_num += 1
 
         print("In epoch {}, TestSet test loss: {}".format(i+1, loss_test))
-        writer.add_scalar(tag="epoch(TestSet) vs loss", scalar_value=loss_train, global_step=i + 1)
+        writer.add_scalar(tag="epoch(TestSet) vs loss", scalar_value=loss_test, global_step=i + 1)
 
     if i != 0 and (i + 1) % 100 == 0:
         path = os.path.join(model_save_path, ("nnextr_model{}.pth".format(i + 1)))
