@@ -41,7 +41,7 @@ nn_optim = torch.optim.Adam(nnextr.parameters(), lr=learn_rate)
 
 train_num = 0
 test_num = 0
-epoch = 4000
+epoch = 3000
 
 start_time = time.time()   # 记录时间
 for i in range(epoch):
@@ -86,7 +86,7 @@ for i in range(epoch):
         print("In epoch {}, TestSet test loss: {}".format(i+1, loss_test))
         writer.add_scalar(tag="epoch(TestSet) vs loss", scalar_value=loss_train, global_step=i + 1)
 
-    if i != 0 and (i + 1) % 400 == 0:
+    if i != 0 and (i + 1) % 100 == 0:
         path = os.path.join(model_save_path, ("nnextr_model{}.pth".format(i + 1)))
         torch.save(nnextr, path)  # 自动保存
 
