@@ -17,7 +17,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 dataset_trans = torchvision.transforms.Compose([
     torchvision.transforms.ToTensor(),
-    torchvision.transforms.Resize((64, 64)),
+    torchvision.transforms.Resize((48, 48)),
 ])
 
 root = "../Dataset"
@@ -43,7 +43,7 @@ nn_optim = torch.optim.Adam(nnextr.parameters(), lr=learn_rate)
 
 train_num = 0
 test_num = 0
-epoch = 3000
+epoch = 4000
 
 start_time = time.time()   # 记录时间
 for i in range(epoch):
