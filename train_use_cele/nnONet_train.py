@@ -23,7 +23,7 @@ print("Train set read: successful.")
 testset = MyData(root=root, train=False)
 print("Test set read: successful.")
 
-train_dataloader = DataLoader(trainset, batch_size=64, shuffle=True)
+train_dataloader = DataLoader(trainset, batch_size=128, shuffle=True)
 test_dataloader = DataLoader(testset, batch_size=32, shuffle=True)
 
 nn_model = nnONet()
@@ -60,7 +60,7 @@ for i in range(epoch):
         nn_optim.step()
 
         train_num += 1
-        if train_num % 50 == 0:
+        if train_num % 500 == 0:
             print("In train num {}, loss: {}".format(train_num, loss))
             writer.add_scalar(tag="train_num vs loss", scalar_value=loss, global_step=train_num)
 
@@ -83,8 +83,8 @@ for i in range(epoch):
         print("In epoch {}, TestSet test loss: {}".format(i+1, loss_test))
         writer.add_scalar(tag="epoch(TestSet) vs loss", scalar_value=loss_test, global_step=i + 1)
 
-    if i != 0 and (i + 1) % 100 == 0:
-        path = os.path.join(model_save_path, ("nnextr_model{}.pth".format(i + 1)))
+    if i != 0 and (i + 1) % 50 == 0:
+        path = os.path.join(model_save_path, ("nnONet_model{}.pth".format(i + 1)))
         torch.save(nn_model, path)  # 自动保存
 
     end_time = time.time()

@@ -26,12 +26,13 @@ class MyData(Dataset):
 
         self.img_list, self.target_tab = readTxt(txt_root)
         self.root = os.path.join(self.root, "Img")
+        self.num = 0
         if not os.path.exists(self.root):
             raise ValueError("path not exist.")
 
     def __getitem__(self, idx):
         img_name = self.img_list[idx]
-        img_target = self.target_tab[idx]
+        img_target = self.target_tab[idx][:]
 
         img_path = os.path.join(self.root, img_name)
         img = cv2.imread(img_path)  # 灰度图：cv2.IMREAD_GRAYSCALE
@@ -47,6 +48,7 @@ class MyData(Dataset):
         else:
             detel_y = (nose_y - img_w / 2)
         img = img[int(detel_y):int(img_w + detel_y), :]
+
         for i in [1,3,5,7,9]:
             img_target[i] -= detel_y
 
@@ -82,11 +84,14 @@ class MyData(Dataset):
 
 
 if __name__ == "__main__":
-    img_resize = (160,160)
+    img_resize = (48,48)
 
-    trainset = MyData(root="test.txt", train=True, resize=img_resize,flip=False, val=True)
+    trainset = MyData(root="test.txt", train=True, resize=img_resize,flip=True, val=True)
     testset = MyData(root="../../CeleDataset", train=False)
 
+    trainset[0]
+    trainset[0]
+    trainset[0]
     img, output, img_path, detel_y = trainset[0]
     print(img.shape)
     print(output.shape)
@@ -101,7 +106,7 @@ if __name__ == "__main__":
 
     output = onetResize(img_resize, output, (178,178))
     output = onetUnCrop(output, detel_y)
-    ExtrVal(img_path, output, flip=False)
+    ExtrVal(img_path, output, flip=True)
 
     tran_pil = torchvision.transforms.ToPILImage()
     img_pil = tran_pil(img)

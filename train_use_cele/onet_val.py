@@ -37,7 +37,7 @@ def ExtrVal(path:str, charac_point, flip:bool=False, resize_target:tuple=None, c
         for i in range(len(charac_point)):
             temp.append(charac_point[i].item())
         charac_point = temp
-        print(charac_point)
+        # print(charac_point)
 
     img = cv2.imread(path)
     img_h,img_w,_ = img.shape  # H,W,C
@@ -129,7 +129,7 @@ def onetResize(image, charac_point, target_size):
         for i in range(len(charac_point)):
             temp.append(charac_point[i].item())
         charac_point = temp
-        print(charac_point)
+        # print(charac_point)
 
     if type(image) == tuple:
         img_h, img_w = image
@@ -152,7 +152,7 @@ def onetUnCrop(charac_point, crop):
         for i in range(len(charac_point)):
             temp.append(charac_point[i].item())
         charac_point = temp
-        print(charac_point)
+        # print(charac_point)
 
     for i in [1, 3, 5, 7, 9]:
         charac_point[i] += crop
