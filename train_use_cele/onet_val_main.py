@@ -7,9 +7,10 @@ from read_data import MyData
 from onet_val import ExtrVal, onetResize, onetUnCrop
 from torch import nn
 
-# model_path = "nnONet_save/nnextr_model500.pth"
-# nn_model = torch.load(model_path)
-nn_model = nnONet()
+model_path = "nnONet_save/nnONet_model50.pth"
+nn_model = torch.load(model_path)
+# nn_model = nnONet()
+print(nn_model)
 
 nn_model.eval()  # 将网络设置成测试模式
 nn_model.to("cpu")
@@ -59,7 +60,7 @@ output = output.reshape(-1)
 target = target.reshape(-1)
 print(output.shape)
 
-output = target
+# output = target
 output = onetResize((48,48), output, (178,178))
 output = onetUnCrop(output, detel_y)
 ExtrVal(img_path, output)
