@@ -7,7 +7,7 @@ from read_data import MyData
 from onet_val import ExtrVal, onetResize, onetUnCrop
 from torch import nn
 
-model_path = "nnONet_save/nnONet_model50.pth"
+model_path = "nnONet_save_new/nnONet_model30.pth"
 nn_model = torch.load(model_path)
 # nn_model = nnONet()
 print(nn_model)
@@ -31,12 +31,12 @@ for i in range(2):
         imgs,targets,a,b = data
 
         outputs = nn_model(imgs)
-        print(outputs)
-        print(targets)
+        # print(outputs)
+        # print(targets)
         loss_test += loss_fn(outputs, targets)
     print("ValSet test loss: {}".format(loss_test))
 
-person = 3
+person = 17
 img,target,img_path,detel_y = valset[person]
 img,target,img_path,detel_y = valset[person]
 print(target)

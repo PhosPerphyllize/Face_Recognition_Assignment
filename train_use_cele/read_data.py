@@ -39,15 +39,23 @@ class MyData(Dataset):
 
         nose_y = img_target[5]
         img_h, img_w,_ = img.shape
-        # 以鼻子为中心裁剪成正方形
+        # 以图片中心裁剪成正方形
         detel_y = 0.0
-        if nose_y < img_w/2:
-            detel_y = 0
-        elif nose_y + img_w/2 > img_h:
-            detel_y = img_h - img_w
-        else:
-            detel_y = (nose_y - img_w / 2)
-        img = img[int(detel_y):int(img_w + detel_y), :]
+        if img_h > img_w:
+            detel_y = 0.5 * (img_h - img_w)
+            img = img[int(detel_y):int(img_w + detel_y), :]
+            # img_h = img_w
+
+        # if self.val:
+        #     # 以鼻子为中心裁剪成正方形
+        #     detel_y = 0.0
+        #     if nose_y < img_w/2:
+        #         detel_y = 0
+        #     elif nose_y + img_w/2 > img_h:
+        #         detel_y = img_h - img_w
+        #     else:
+        #         detel_y = (nose_y - img_w / 2)
+        #     img = img[int(detel_y):int(img_w + detel_y), :]
 
         for i in [1,3,5,7,9]:
             img_target[i] -= detel_y
@@ -89,10 +97,7 @@ if __name__ == "__main__":
     trainset = MyData(root="test.txt", train=True, resize=img_resize,flip=True, val=True)
     testset = MyData(root="../../CeleDataset", train=False)
 
-    trainset[0]
-    trainset[0]
-    trainset[0]
-    img, output, img_path, detel_y = trainset[0]
+    img, output, img_path, detel_y = trainset[2]
     print(img.shape)
     print(output.shape)
     print(img)

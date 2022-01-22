@@ -8,8 +8,8 @@ import time
 from read_data import *
 from nn_model import *
 
-writer = SummaryWriter("logs/nnONet")
-model_save_path = "nnONet_save"
+writer = SummaryWriter("logs/nnONet_new")
+model_save_path = "nnONet_save_new"
 if not os.path.exists(model_save_path):
     os.makedirs(model_save_path)
 
@@ -38,7 +38,7 @@ nn_optim = torch.optim.Adam(nn_model.parameters(), lr=learn_rate)
 
 train_num = 0
 test_num = 0
-epoch = 4000
+epoch = 200
 
 start_time = time.time()   # 记录时间
 for i in range(epoch):
@@ -60,7 +60,7 @@ for i in range(epoch):
         nn_optim.step()
 
         train_num += 1
-        if train_num % 500 == 0:
+        if train_num % 50 == 0:
             print("In train num {}, loss: {}".format(train_num, loss))
             writer.add_scalar(tag="train_num vs loss", scalar_value=loss, global_step=train_num)
 
@@ -83,7 +83,7 @@ for i in range(epoch):
         print("In epoch {}, TestSet test loss: {}".format(i+1, loss_test))
         writer.add_scalar(tag="epoch(TestSet) vs loss", scalar_value=loss_test, global_step=i + 1)
 
-    if i != 0 and (i + 1) % 50 == 0:
+    if i != 0 and (i + 1) % 10 == 0:
         path = os.path.join(model_save_path, ("nnONet_model{}.pth".format(i + 1)))
         torch.save(nn_model, path)  # 自动保存
 

@@ -4,7 +4,7 @@ from read_data import MyData
 from extr_val import ExtrVal
 import torchvision
 
-model_path = "nnextr_save2/nnextr_model4000.pth"
+model_path = "nnextr_save2/nnextr_model100.pth"
 nn_model = torch.load(model_path)
 nn_model.to("cpu")
 
@@ -15,7 +15,7 @@ dataset_trans = torchvision.transforms.Compose([
 valset = MyData("valset.txt", train=False, transforms=dataset_trans, val=True,flip=True)
 print(len(valset))
 
-person = 9
+person = 5
 img,target,img_path = valset[person]
 print(img.shape)
 img = img.reshape(1,1,48,48)
