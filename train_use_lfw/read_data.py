@@ -17,7 +17,7 @@ class MyData(Dataset):
             txt_root = os.path.join(self.root, "testing.txt")
         if val:
             txt_root = self.root
-            self.root = "../Dataset"
+            self.root = "../../Dataset"
 
         self.img_list, self.target_tab = readTxt(txt_root)
         self.trans = transforms
