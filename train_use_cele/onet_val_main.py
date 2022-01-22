@@ -36,7 +36,7 @@ for i in range(2):
         loss_test += loss_fn(outputs, targets)
     print("ValSet test loss: {}".format(loss_test))
 
-person = 17
+person = 16
 img,target,img_path,detel_y = valset[person]
 img,target,img_path,detel_y = valset[person]
 print(target)

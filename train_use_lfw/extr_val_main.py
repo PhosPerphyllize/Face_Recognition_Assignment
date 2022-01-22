@@ -15,7 +15,7 @@ dataset_trans = torchvision.transforms.Compose([
 valset = MyData("valset.txt", train=False, transforms=dataset_trans, val=True,flip=True)
 print(len(valset))
 
-person = 5
+person = 4
 img,target,img_path = valset[person]
 print(img.shape)
 img = img.reshape(1,1,48,48)

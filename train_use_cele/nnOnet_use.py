@@ -51,7 +51,7 @@ nn_model.to("cpu")
 valset = ReadFolder("valpic")
 print(len(valset))
 
-person = 7
+person = 10
 img,img_path,detel_y,img_ori_shape = valset[person]
 print(img.shape)
 img = img.reshape(1,3,48,48)
